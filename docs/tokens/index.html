@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tokens: AI reads chunks, not letters · Free Public Lessons</title>
+<!-- Written by media/post.mjs from the lesson's README.md, post.md and checks.md (media/tools/lesson_page.mjs). Don't edit it: it is written again on every run. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; img-src 'self' data:; font-src 'self'; base-uri 'none'; form-action 'none'">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<main>
+<div class="topline"><nav class="crumbs"><a href="../">← All lessons</a></nav><div class="badges"><span class="badge kind">lesson</span></div></div>
+<header><div class="badges"><span class="badge">Beginner/Intermediate</span><span class="badge">Released 2026-10-26</span><span class="badge">Checked 2026-10-25</span></div></header>
+<h1>Tokens: AI reads chunks, not letters</h1>
+<p class="summary">AI doesn't read your text letter by letter. It sees numbered chunks of text called tokens.</p>
+<h2>The short answer</h2>
+<p>A tokenizer cuts your text into chunks called tokens. A token can be any piece of text from a letter to a full word, even characters or chunks of text, like 'ing'. The model gets each token as a number from a fixed list. In OpenAI's o200k_base tokenizer, &quot;How many r's are in strawberry?&quot; is 8 tokens. In that question, &quot; strawberry&quot; is token 101830: one chunk, not ten letters.</p>
+<h2>The picture</h2>
+<figure><div class="art"><img src="picture.svg" alt="A question about strawberry, cut into its tokens by OpenAI's o200k_base tokenizer. Each word after the first is marked with the space in front of it. The token for strawberry, with its space, has one number. Without the space, the word splits into three pieces." width="963" height="825"></div><figcaption>OpenAI's o200k_base tokenizer, run by check.py. Each word after the first carries the space before it.</figcaption></figure>
+
+<h2>How it works</h2>
+<p>The tokenizer's list is fixed before the model is trained. Common words get a token of their own, and rare words are built from smaller pieces (Sennrich et al., section 3.2). OpenAI's o200k_base list has about 200,000 tokens, and tiktoken uses it for GPT-4o. The older cl100k_base list has about 100,000, and tiktoken uses it for GPT-4.</p>
+<p>In the question, each word after the first carries the space before it. That is why &quot; strawberry&quot; starts with a space, and with it the word is one token. Without the space, the word splits into three tokens. In o200k_base they are &quot;st&quot;, &quot;raw&quot; and &quot;berry&quot;. In cl100k_base they are &quot;str&quot;, &quot;aw&quot; and &quot;berry&quot;, and &quot; strawberry&quot; is token 73700. Each tokenizer cuts text its own way.</p>
+<p>So the model is never handed the ten letters of strawberry to count. It is handed one number.</p>
+<h2>Try it</h2>
+<p>Paste this into Python 3, after <code>pip install tiktoken</code>. The first run downloads each tokenizer's list, so it needs the internet.</p>
+<pre><code class="language-python"># Token numbers in two OpenAI tokenizers, from OpenAI's tiktoken library.
+import tiktoken
+for name in [&quot;o200k_base&quot;, &quot;cl100k_base&quot;]:
+    enc = tiktoken.get_encoding(name)
+    print(name)
+    print(len(enc.encode(&quot;How many r's are in strawberry?&quot;)), &quot;tokens&quot;)
+    print(&quot;' strawberry' =&quot;, enc.encode(&quot; strawberry&quot;))
+    print(&quot;'strawberry' =&quot;, [enc.decode([t]) for t in enc.encode(&quot;strawberry&quot;)])</code></pre>
+<p>What you should see:</p>
+<pre><code>o200k_base
+8 tokens
+' strawberry' = [101830]
+'strawberry' = ['st', 'raw', 'berry']
+cl100k_base
+8 tokens
+' strawberry' = [73700]
+'strawberry' = ['str', 'aw', 'berry']</code></pre>
+<p>Both tokenizers make 8 tokens of the question, but they number and split the word differently.</p>
+<h2>Where this picture is simplified</h2>
+<p><strong>It shows what goes in, not what the model can work out.</strong> AI can still count the r's correctly, for example by spelling the word out first. The picture only shows what the model is given.</p>
+<section class="box" aria-labelledby="simplified-on-purpose"><h2 id="simplified-on-purpose">Simplified on purpose</h2>
+<ul class="stones"><li><span class="said">“In that question, &quot; strawberry&quot; is token 101830: one chunk, not ten letters.”</span> <span class="where">(The short answer)</span><br>On the Reel I gave strawberry's number without saying whose list it's from. 101830 is its number in OpenAI's o200k_base, the list GPT-4o uses. Each tokenizer has its own list, so in the older cl100k_base it's 73700.</li><li><span class="said">“AI doesn't read your text letter by letter.”</span><br>I said AI doesn't read letter by letter. That's true for the AI you chat with, but a rare word can still break down into single letters, and a few research models read text byte by byte.</li><li><span class="said">“So the model is never handed the ten letters of strawberry to count.”</span> <span class="where">(How it works)</span><br>I said the model is never handed the letters. That's true when you type strawberry as a word. Type it as s-t-r-a-w-b-e-r-r-y, or let the AI spell it out first, and it gets them one at a time.</li></ul></section>
+<section class="box" aria-labelledby="your-turn"><h2 id="your-turn">Your turn</h2>
+<p class="featured">In your own words, what does AI get when you type strawberry?</p><p class="cta">Comment your answer on this week's post.</p>
+<ul class="tiers"><li><span class="tier">Warm-up:</span> Explain tokens to a friend in one sentence.</li><li><span class="tier">Make your own:</span> Compare tokens with something from music or reading.</li><li><span class="tier">Stretch:</span> Why can the same word get a different number in another tokenizer?</li><li><span class="tier">Project:</span> Run the Try it code on your own name. How many tokens is it?</li></ul></section>
+<h2>Sources and checks</h2>
+<ul><li>OpenAI, tiktoken (github.com/openai/tiktoken). The two tokenizers, and which model uses each: tiktoken/model.py.</li><li>Sennrich et al. (2016), Neural Machine Translation of Rare Words with Subword Units. How a token list is built from text: section 3.2.</li></ul>
+<p>Computed by check.py: the 8 tokens, the token numbers 101830 and 73700, the three-way splits, the two list sizes, the ten letters, and which model tiktoken maps to each list.</p>
+<p><strong>How this was checked</strong> (2026-10-07): check.py ran tiktoken 0.14.0 on Python 3.11. Which model uses which list is tiktoken's own table, not OpenAI's model pages.</p>
+<h2>Corrections</h2>
+<p>None yet. Spot a mistake? Open an issue on GitHub or comment on the post. Every change is in this page's GitHub history.</p>
+<h2>License</h2>
+<p>Words and picture: CC0 1.0. Code: MIT-0. Copy, change and share anywhere, with no credit needed.</p>
+<footer class="foot"><a href="../">All lessons</a> · <a href="https://github.com/Mike-Byrne-AI/free-public-lessons/tree/main/lessons/tokens">This lesson's files on GitHub</a></footer>
+</main>
+</body>
+</html>

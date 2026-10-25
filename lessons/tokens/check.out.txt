@@ -1,0 +1,20 @@
+o200k_base
+8 tokens
+' strawberry' = [101830]
+'strawberry' = ['st', 'raw', 'berry']
+cl100k_base
+8 tokens
+' strawberry' = [73700]
+'strawberry' = ['str', 'aw', 'berry']
+
+---- Part B ----
+tiktoken 0.14.0 on Python 3.11.9
+o200k_base list size: 200019
+o200k_base the question's tokens: ['How', ' many', ' r', "'s", ' are', ' in', ' strawberry', '?'] [5299, 1991, 428, 885, 553, 306, 101830, 30]
+o200k_base words after the first that start with a space: 5 of 5
+cl100k_base list size: 100277
+cl100k_base the question's tokens: ['How', ' many', ' r', "'s", ' are', ' in', ' strawberry', '?'] [4438, 1690, 436, 596, 527, 304, 73700, 30]
+cl100k_base words after the first that start with a space: 5 of 5
+tiktoken maps gpt-4o to o200k_base
+tiktoken maps gpt-4 to cl100k_base
+letters in strawberry: 10 | r's: 3
