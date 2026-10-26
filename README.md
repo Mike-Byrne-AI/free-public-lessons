@@ -17,7 +17,7 @@ fact-checked before release.
 
 ## License
 
-Words and pictures: CC0 1.0 (`LICENSE`). Code: MIT-0 (`LICENSE-CODE`). Copy, change and share anywhere, with no credit
+Words, pictures, Reels and music: CC0 1.0 (`LICENSE`). Code: MIT-0 (`LICENSE-CODE`). Copy, change and share anywhere, with no credit
 needed.
 
 Spot a mistake? Open an issue, or comment on the post. Every change is in this repo's history.

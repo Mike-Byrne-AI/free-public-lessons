@@ -83,11 +83,36 @@ footer, .foot { margin-top: 3rem; font-size: .85rem; color: var(--muted); border
 .card .words { display: block; padding: 10px 16px 14px; }
 .card h3 { margin: 0 0 .2rem; font: 700 1.2rem/1.3 var(--sans); color: var(--text); }
 .card .hook { display: block; color: var(--muted); }
-/* a lesson page: the picture on white, the boxes ("Simplified on purpose", "Your turn") as panels */
+/* a lesson with a Reel: its title over the card, beside its badges; the card its Reel's cover, phone-shaped, with a play
+   mark, since the Reel is the lesson's front, and its picture beside it, the two the same height (the columns in the
+   ratio of their widths at one height: 9/16 to 963/830, 1 to 2.0626) */
+.card .head { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 12px; row-gap: 2px; margin: 0 0 6px; }
+.card .head .badges { margin: 0; }
+.card .head h3 { margin: 0; font: 700 1.35rem/1.25 Kalam, var(--sans); }
+.card .head h3 a { color: var(--pen); text-decoration: none; }
+.card .head h3 a:hover { text-decoration: underline; }
+.card a.title.has-reel { display: grid; grid-template-columns: 1fr 2.0626fr; }
+.card .art.cover { position: relative; padding: 0; border-bottom: 0; border-right: 1px solid var(--border); background: var(--bg); }
+.card .art.pic { padding: 0; border-bottom: 0; }
+.card .art.cover .play { position: absolute; left: 50%; top: 50%; width: 48px; height: 48px; margin: -24px 0 0 -24px; border-radius: 50%; background: rgb(29 28 26 / .72); }
+.card .art.cover .play::after { content: ""; position: absolute; left: 19px; top: 14px; border-style: solid; border-width: 10px 0 10px 16px; border-color: transparent transparent transparent #fffef9; }/* a lesson page: the picture on white, the boxes ("Simplified on purpose", "Your turn") as panels */
 figure { margin: 1rem 0; }
 figure .art { background: #ffffff; border: 1px solid var(--border); border-radius: 14px; padding: 10px; }
 figure img { display: block; width: 100%; height: auto; }
 figcaption { font-size: .875rem; color: var(--muted); margin-top: .4rem; }
+/* the lesson's Reel, under its title, on a strip of the Reel's own ruled paper across the screen: the strip's lines are
+   the video's, carried out past both its sides at the same scale and height. --h is the video's height: 736.4 px puts its
+   lines 28 px apart, as the page's are (the Reel's are 73 px apart at 1920 px tall, from 110 px down; media/lib/stage.css
+   #rules), less on a short or narrow screen. --pad is one of its lines, above and below. */
+.reel { --h: min(736.4px, 82vh, calc((100vw - 64px) * 16 / 9)); --step: calc(var(--h) * 73 / 1920); --pad: var(--step);
+  margin: 1.2rem calc(50% - 50vw); padding: var(--pad) 0; background-color: var(--bg);
+  background-image: repeating-linear-gradient(transparent 0 calc(var(--step) * 70 / 73), var(--rule) calc(var(--step) * 70 / 73) var(--step));
+  background-position: 0 calc(var(--pad) + var(--h) * 40 / 1920); }
+.reel video { display: block; margin: 0 auto; height: var(--h); width: calc(var(--h) * 9 / 16); background: var(--bg); }
+/* on a narrow screen the column's left padding is wider than its right (main, below 900 px): the strip shifts by half the
+   difference to start at the screen's edge; and the page clips sideways, since 100vw counts a scrollbar */
+@media (max-width: 900px) { .reel { margin-left: calc(50% - 50vw - (clamp(12px, 4vw, 64px) - 2px) / 2); margin-right: calc(50% - 50vw + (clamp(12px, 4vw, 64px) - 2px) / 2); } }
+html { overflow-x: clip; }
 .box { margin: 2rem 0 0; padding: .4rem 1rem .6rem; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; }
 .box h2 { margin-top: .4rem; }
 .featured { font-size: 1.1rem; font-weight: 600; margin: .4rem 0 .2rem; }

@@ -18,3 +18,6 @@ cl100k_base words after the first that start with a space: 5 of 5
 tiktoken maps gpt-4o to o200k_base
 tiktoken maps gpt-4 to cl100k_base
 letters in strawberry: 10 | r's: 3
+unsloth/Meta-Llama-3.1-8B list size: 128256 | parameters: 8030261248
+moonshotai/Kimi-K3 list size: 163840 | parameters: 2779931837184
+Kimi K3 has 346 times the parameters of Llama 3.1 8B
