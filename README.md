@@ -4,6 +4,8 @@ Free AI lessons every week.
 
 **Browse them here: https://mike-byrne-ai.github.io/free-public-lessons/**
 
+**[michaelbyrne.dev](https://michaelbyrne.dev/):** More of my work.
+
 Each lesson explains one idea about how AI works, with a picture, code you can run, and its sources. Each one comes
 with the code that prints its numbers (`check.py`) and what that code printed (`check.out.txt`), and every line is
 fact-checked before release.
